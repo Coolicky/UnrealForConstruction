@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{DCE672DA-06B5-4078-A0D7-25FC88FFC896}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "src\Models\Models.csproj", "{DCE672DA-06B5-4078-A0D7-25FC88FFC896}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
