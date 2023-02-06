@@ -8,6 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
           <PrivateAssets>all</PrivateAssets>
@@ -18,6 +21,7 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,6 +35,13 @@
       <ProjectReference Include="..\Migrations\Postgres\Postgres.csproj" />
       <ProjectReference Include="..\Migrations\Sqlite\Sqlite.csproj" />
       <ProjectReference Include="..\Migrations\SqlServer\SqlServer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Endpoints\Panorama" />
+      <Folder Include="Endpoints\PoI" />
+      <Folder Include="Endpoints\Screenshot" />
+      <Folder Include="Endpoints\Video" />
     </ItemGroup>
 
 </Project>
