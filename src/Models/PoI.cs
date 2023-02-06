@@ -11,7 +11,7 @@ public class PoI : IEntity, IFileEntity
     public string Information { get; set; }
     public string Footer { get; set; }
     public string Icon { get; set; }
-    [NotMapped] public string Image { get; set; }
+    [NotMapped] public string? Image { get; set; }
     public string FileType { get; set; }
     public string Tag { get; set; }
     public double LookDistance { get; set; }
