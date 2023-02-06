@@ -37,11 +37,4 @@
       <ProjectReference Include="..\Migrations\SqlServer\SqlServer.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Endpoints\Panorama" />
-      <Folder Include="Endpoints\PoI" />
-      <Folder Include="Endpoints\Screenshot" />
-      <Folder Include="Endpoints\Video" />
-    </ItemGroup>
-
 </Project>
