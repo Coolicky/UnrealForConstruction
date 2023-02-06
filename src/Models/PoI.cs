@@ -3,10 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models;
 
-public class PoI : IEntity, IFileEntity
+public class PoI : IFileEntity, IProjectEntity
 {
     [Key] public int Id { get; set; }
+    
+    [ForeignKey("Project")]
+    public int ProjectId { get; set; }
     public Project Project { get; set; }
+    
     public string Name { get; set; }
     public string Information { get; set; }
     public string Footer { get; set; }
