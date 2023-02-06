@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sqlite", "src\Migrations\Sq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServer", "src\Migrations\SqlServer\SqlServer.csproj", "{BCE6E673-5851-4744-9DB5-1B75F66DD8CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{690603D0-F761-4C1A-835D-ED6A0405E711}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{BCE6E673-5851-4744-9DB5-1B75F66DD8CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCE6E673-5851-4744-9DB5-1B75F66DD8CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCE6E673-5851-4744-9DB5-1B75F66DD8CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690603D0-F761-4C1A-835D-ED6A0405E711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690603D0-F761-4C1A-835D-ED6A0405E711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690603D0-F761-4C1A-835D-ED6A0405E711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690603D0-F761-4C1A-835D-ED6A0405E711}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7EA0F1E2-DB18-447C-9DBA-3F1F93B04053} = {E2941011-D363-4B8D-8A16-B468B8D6307D}
