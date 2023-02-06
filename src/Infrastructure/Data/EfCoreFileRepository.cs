@@ -5,7 +5,7 @@ using Models;
 
 namespace Infrastructure.Data;
 
-public abstract class EfCoreFileRepository<TEntity, TContext> : IUnrealFileRepository<TEntity>, IUnrealRepository<TEntity>
+public abstract class EfCoreFileRepository<TEntity, TContext> : IUnrealFileRepository<TEntity>
     where TEntity : class, IFileEntity
     where TContext : DbContext
 {
