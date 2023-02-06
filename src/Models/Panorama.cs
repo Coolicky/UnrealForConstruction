@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models;
 
-public class Panorama : IEntity
+public class Panorama : IEntity, IFileEntity
 {
     [Key] public int Id { get; set; }
     public string Name { get; set; }
