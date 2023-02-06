@@ -42,19 +42,19 @@ public abstract class EfCoreFileRepository<TEntity, TContext> : IUnrealFileRepos
         return entity;
     }
 
-    public async Task<TEntity?> Delete(int id)
+    public async Task<bool> Delete(int id)
     {
         var entity = await _context.Set<TEntity>().FindAsync(id);
         if (entity == null)
         {
-            return entity;
+            return false;
         }
         
         _context.Set<TEntity>().Remove(entity);
         await _unrealStorage.Delete(id, entity.FileType);
-        await _context.SaveChangesAsync();
+        var result = await _context.SaveChangesAsync();
 
-        return entity;
+        return result > 0;
     }
 
     public async Task<string?> GetUrl(TEntity entity)

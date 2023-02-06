@@ -38,18 +38,18 @@ public abstract class EfCoreRepository<TEntity, TContext> : IUnrealRepository<TE
         return entity;
     }
 
-    public async Task<TEntity?> Delete(int id)
+    public async Task<bool> Delete(int id)
     {
         
         var entity = await _context.Set<TEntity>().FindAsync(id);
         if (entity == null)
         {
-            return entity;
+            return false;
         }
 
         _context.Set<TEntity>().Remove(entity);
-        await _context.SaveChangesAsync();
+        var result = await _context.SaveChangesAsync();
 
-        return entity;
+        return result > 0;
     }
 }
