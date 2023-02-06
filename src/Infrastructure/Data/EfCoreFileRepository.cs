@@ -6,7 +6,7 @@ using Models;
 namespace Infrastructure.Data;
 
 public abstract class EfCoreFileRepository<TEntity, TContext> : IUnrealFileRepository<TEntity>
-    where TEntity : class, IFileEntity
+    where TEntity : class, IFileEntity, IProjectEntity
     where TContext : DbContext
 {
     private readonly TContext _context;
@@ -55,6 +55,13 @@ public abstract class EfCoreFileRepository<TEntity, TContext> : IUnrealFileRepos
         var result = await _context.SaveChangesAsync();
 
         return result > 0;
+    }
+
+    public async Task<List<TEntity>> GetAll(int id)
+    {
+        return await _context.Set<TEntity>()
+            .Where(r => r.ProjectId == id)
+            .ToListAsync();
     }
 
     public async Task<string?> GetUrl(TEntity entity)
