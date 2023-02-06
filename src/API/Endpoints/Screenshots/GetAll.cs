@@ -14,7 +14,7 @@ public class GetAll : EndpointBaseAsync.WithRequest<int>.WithActionResult<IEnume
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/panorama/all/{projectId:int}")]
+    [HttpGet("api/v{version:apiVersion}/screenshot/all/{projectId:int}")]
     [SwaggerOperation(
         Summary = "Gets all Screenshots",
         Description = "Gets all Screenshots",

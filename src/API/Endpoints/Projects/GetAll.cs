@@ -14,7 +14,7 @@ public class GetAll : EndpointBaseAsync.WithoutRequest.WithActionResult<IEnumera
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/panorama/all/{projectId:int}")]
+    [HttpGet("api/v{version:apiVersion}/project")]
     [SwaggerOperation(
         Summary = "Gets all Projects",
         Description = "Gets all Projects",

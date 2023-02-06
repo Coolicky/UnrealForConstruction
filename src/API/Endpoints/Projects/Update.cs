@@ -14,7 +14,7 @@ public class Update : EndpointBaseAsync.WithRequest<Project>.WithActionResult<Pr
     {
         _repository = repository;
     }
-    [HttpPatch("api/v{version:apiVersion}/panorama")]
+    [HttpPatch("api/v{version:apiVersion}/project")]
     [SwaggerOperation(
         Summary = "Updates a Project",
         Description = "Updates a Project",

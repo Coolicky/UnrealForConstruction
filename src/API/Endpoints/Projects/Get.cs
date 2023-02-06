@@ -14,7 +14,7 @@ public class Get : EndpointBaseAsync.WithRequest<int>.WithActionResult<Project>
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/panorama/{id:int}")]
+    [HttpGet("api/v{version:apiVersion}/project/{id:int}")]
     [SwaggerOperation(
         Summary = "Gets a Project",
         Description = "Gets a Project",

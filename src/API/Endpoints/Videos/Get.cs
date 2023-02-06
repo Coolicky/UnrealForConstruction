@@ -14,7 +14,7 @@ public class Get : EndpointBaseAsync.WithRequest<int>.WithActionResult<VideoReco
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/panorama/{id:int}")]
+    [HttpGet("api/v{version:apiVersion}/video/{id:int}")]
     [SwaggerOperation(
         Summary = "Gets a Video",
         Description = "Gets a Video",

@@ -14,7 +14,7 @@ public class Update : EndpointBaseAsync.WithRequest<Screenshot>.WithActionResult
     {
         _repository = repository;
     }
-    [HttpPatch("api/v{version:apiVersion}/panorama")]
+    [HttpPatch("api/v{version:apiVersion}/screenshot")]
     [SwaggerOperation(
         Summary = "Updates a Screenshot",
         Description = "Updates a Screenshot",

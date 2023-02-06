@@ -14,7 +14,7 @@ public class Get : EndpointBaseAsync.WithRequest<int>.WithActionResult<Screensho
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/panorama/{id:int}")]
+    [HttpGet("api/v{version:apiVersion}/screenshot/{id:int}")]
     [SwaggerOperation(
         Summary = "Gets a Screenshot",
         Description = "Gets a Screenshot",

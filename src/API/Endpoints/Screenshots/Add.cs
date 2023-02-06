@@ -14,7 +14,7 @@ public class Add : EndpointBaseAsync.WithRequest<Screenshot>.WithActionResult<Sc
     {
         _repository = repository;
     }
-    [HttpPost("api/v{version:apiVersion}/panorama")]
+    [HttpPost("api/v{version:apiVersion}/screenshot")]
     [SwaggerOperation(
         Summary = "Adds new Screenshot",
         Description = "Adds new Screenshot",

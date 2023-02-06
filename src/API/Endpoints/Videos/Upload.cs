@@ -15,7 +15,7 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
     {
         _repository = repository;
     }
-    [HttpPost("api/v{version:apiVersion}/poi/file/{id:int}")]
+    [HttpPost("api/v{version:apiVersion}/video/file/{id:int}")]
     [SwaggerOperation(
         Summary = "Uploads Video",
         Description = "Uploads Video",

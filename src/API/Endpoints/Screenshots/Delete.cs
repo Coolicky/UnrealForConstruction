@@ -14,7 +14,7 @@ public class Delete : EndpointBaseAsync.WithRequest<int>.WithActionResult
     {
         _repository = repository;
     }
-    [HttpDelete("api/v{version:apiVersion}/panorama")]
+    [HttpDelete("api/v{version:apiVersion}/screenshot")]
     [SwaggerOperation(
         Summary = "Deletes a Screenshot",
         Description = "Deletes a Screenshot",

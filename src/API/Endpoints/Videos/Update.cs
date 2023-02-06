@@ -14,7 +14,7 @@ public class Update : EndpointBaseAsync.WithRequest<VideoRecording>.WithActionRe
     {
         _repository = repository;
     }
-    [HttpPatch("api/v{version:apiVersion}/panorama")]
+    [HttpPatch("api/v{version:apiVersion}/video")]
     [SwaggerOperation(
         Summary = "Updates a Video",
         Description = "Updates a Video",

@@ -14,7 +14,7 @@ public class Download : EndpointBaseAsync.WithRequest<int>.WithActionResult
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/panorama/file/{id:int}")]
+    [HttpGet("api/v{version:apiVersion}/video/file/{id:int}")]
     [SwaggerOperation(
         Summary = "Downloads Video",
         Description = "Downloads Video",
