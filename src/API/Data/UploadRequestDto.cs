@@ -4,6 +4,6 @@ namespace API.Data;
 
 public class UploadRequestDto
 {
-    [FromRoute(Name = "id")] public string Id { get; set; }
+    [FromRoute(Name = "id")] public int Id { get; set; }
     [FromForm] public IFormFile File { get; set; }
 }
