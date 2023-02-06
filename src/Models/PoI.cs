@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models;
 
-public class PoI
+public class PoI : IEntity
 {
     [Key] public int Id { get; set; }
     public Project Project { get; set; }

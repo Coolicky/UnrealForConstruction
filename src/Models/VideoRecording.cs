@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models;
 
-public class VideoRecording
+public class VideoRecording : IEntity
 {
     [Key] public int Id { get; set; }
     public Project Project { get; set; }
