@@ -1,12 +1,19 @@
 using Ardalis.ApiEndpoints;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Projects;
 
-public class Add : EndpointBaseAsync.WithRequest<Project>.WithActionResult
+public class Add : EndpointBaseAsync.WithRequest<Project>.WithActionResult<Project>
 {
+    private readonly IUnrealRepository<Project> _repository;
+
+    public Add(IUnrealRepository<Project> repository)
+    {
+        _repository = repository;
+    }
     [HttpPost("api/v{version:apiVersion}/project")]
     [SwaggerOperation(
         Summary = "Adds new Project",
@@ -14,8 +21,10 @@ public class Add : EndpointBaseAsync.WithRequest<Project>.WithActionResult
         OperationId = "Projects.Add",
         Tags = new[] { "ProjectEndpoint" })
     ]
-    public override Task<ActionResult> HandleAsync(Project project, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<Project>> HandleAsync(Project project, CancellationToken cancellationToken = new())
     {
-        throw new NotImplementedException();
+        var result =  await _repository.Add(project);
+        if (result is null) return Problem();
+        return result;
     }
 }

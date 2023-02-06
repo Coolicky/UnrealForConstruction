@@ -32,6 +32,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Data\Data.csproj" />
+      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
       <ProjectReference Include="..\Migrations\Postgres\Postgres.csproj" />
       <ProjectReference Include="..\Migrations\Sqlite\Sqlite.csproj" />
       <ProjectReference Include="..\Migrations\SqlServer\SqlServer.csproj" />

@@ -1,12 +1,20 @@
 using API.Data;
 using Ardalis.ApiEndpoints;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Videos;
 
-public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithActionResult
+public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithActionResult<VideoRecording>
 {
+    private readonly IUnrealFileRepository<VideoRecording> _repository;
+
+    public Upload(IUnrealFileRepository<VideoRecording> repository)
+    {
+        _repository = repository;
+    }
     [HttpPost("api/v{version:apiVersion}/poi/file/{id:int}")]
     [SwaggerOperation(
         Summary = "Uploads Video",
@@ -14,8 +22,12 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
         OperationId = "Videos.Upload",
         Tags = new[] { "VideosEndpoint" })
     ]
-    public override Task<ActionResult> HandleAsync(UploadRequestDto dto, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<VideoRecording>> HandleAsync(UploadRequestDto dto, CancellationToken cancellationToken = new())
     {
-        throw new NotImplementedException();
+        var videoRecording = await _repository.Get(dto.Id);
+        if (videoRecording is null) return NotFound();
+        var result = await _repository.Upload(dto.File, videoRecording);
+        if (result is null) return Problem();
+        return result;
     }
 }

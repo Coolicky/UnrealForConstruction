@@ -1,4 +1,5 @@
 using Ardalis.ApiEndpoints;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Swashbuckle.AspNetCore.Annotations;
@@ -7,6 +8,12 @@ namespace API.Endpoints.Screenshots;
 
 public class GetAll : EndpointBaseAsync.WithRequest<int>.WithActionResult<IEnumerable<Screenshot>>
 {
+    private readonly IUnrealFileRepository<Screenshot> _repository;
+
+    public GetAll(IUnrealFileRepository<Screenshot> repository)
+    {
+        _repository = repository;
+    }
     [HttpGet("api/v{version:apiVersion}/panorama/all/{projectId:int}")]
     [SwaggerOperation(
         Summary = "Gets all Screenshots",
@@ -14,8 +21,8 @@ public class GetAll : EndpointBaseAsync.WithRequest<int>.WithActionResult<IEnume
         OperationId = "Screenshots.GetAll",
         Tags = new[] { "ScreenshotsEndpoint" })
     ]
-    public override Task<ActionResult<IEnumerable<Screenshot>>> HandleAsync(int projectId, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<IEnumerable<Screenshot>>> HandleAsync(int projectId, CancellationToken cancellationToken = new())
     {
-        throw new NotImplementedException();
+        return await _repository.GetAll(projectId);
     }
 }

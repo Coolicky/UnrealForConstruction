@@ -1,4 +1,5 @@
 using Ardalis.ApiEndpoints;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Swashbuckle.AspNetCore.Annotations;
@@ -7,6 +8,13 @@ namespace API.Endpoints.Panoramas;
 
 public class Get : EndpointBaseAsync.WithRequest<int>.WithActionResult<Panorama>
 {
+    
+    private readonly IUnrealFileRepository<Panorama> _repository;
+
+    public Get(IUnrealFileRepository<Panorama> repository)
+    {
+        _repository = repository;
+    }
     [HttpGet("api/v{version:apiVersion}/panorama/{id:int}")]
     [SwaggerOperation(
         Summary = "Gets a Panorama",
@@ -14,8 +22,10 @@ public class Get : EndpointBaseAsync.WithRequest<int>.WithActionResult<Panorama>
         OperationId = "Panoramas.Get",
         Tags = new[] { "PanoramasEndpoint" })
     ]
-    public override Task<ActionResult<Panorama>> HandleAsync(int id, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<Panorama>> HandleAsync(int id, CancellationToken cancellationToken = new())
     {
-        throw new NotImplementedException();
+        var panorama = await _repository.Get(id);
+        if (panorama is null) return NotFound();
+        return panorama;
     }
 }
