@@ -1,3 +1,4 @@
+using Data;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -5,14 +6,13 @@ using Models;
 
 namespace Infrastructure.Data;
 
-public abstract class EfCoreFileRepository<TEntity, TContext> : IUnrealFileRepository<TEntity>
+public class EfCoreFileRepository<TEntity> : IUnrealFileRepository<TEntity>
     where TEntity : class, IFileEntity, IProjectEntity
-    where TContext : DbContext
 {
-    private readonly TContext _context;
+    private readonly UnrealContext _context;
     private readonly IUnrealStorageService<TEntity> _unrealStorage;
 
-    protected EfCoreFileRepository(TContext context, IUnrealStorageService<TEntity> unrealStorage)
+    public EfCoreFileRepository(UnrealContext context, IUnrealStorageService<TEntity> unrealStorage)
     {
         _context = context;
         _unrealStorage = unrealStorage;

@@ -5,11 +5,11 @@ using Models;
 
 namespace Infrastructure.Data;
 
-public abstract class EfCoreRepository<TEntity, TContext> : IUnrealRepository<TEntity> where TEntity : class, IEntity where TContext : UnrealContext
+public class EfCoreRepository<TEntity> : IUnrealRepository<TEntity> where TEntity : class, IEntity
 {
-    private readonly TContext _context;
+    private readonly UnrealContext _context;
 
-    protected EfCoreRepository(TContext context)
+    public EfCoreRepository(UnrealContext context)
     {
         _context = context;
     }

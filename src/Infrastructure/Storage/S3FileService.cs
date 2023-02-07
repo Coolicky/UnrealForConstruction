@@ -1,4 +1,3 @@
-using Azure.Storage.Blobs;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Minio;
@@ -6,15 +5,17 @@ using Models;
 
 namespace Infrastructure.Storage;
 
-public abstract class S3FileService<T> : IUnrealStorageService<T> where T : class, IFileEntity
+public class S3FileService<T> : IUnrealStorageService<T> where T : class, IFileEntity
 {
-    private readonly IS3Client _client;
+    private readonly MinioClient _client;
+    private readonly StorageSettings _settings;
     private readonly string _bucketName;
 
-    protected S3FileService(IS3Client client)
+    public S3FileService(MinioClient client, StorageSettings settings)
     {
         _client = client;
-        _bucketName = nameof(T);
+        _settings = settings;
+        _bucketName = typeof(T).Name.ToLowerInvariant();
     }
 
     public async Task<string?> GetUrl(T entity)
@@ -23,12 +24,24 @@ public abstract class S3FileService<T> : IUnrealStorageService<T> where T : clas
         var args = new PresignedGetObjectArgs()
             .WithBucket(_bucketName)
             .WithObject(objectName)
-            .WithExpiry(_client.ExpiryTime);
+            .WithExpiry(_settings.ExpiryTime);
         return await _client.PresignedGetObjectAsync(args);
     }
 
     public async Task Upload(IFormFile file, int id)
     {
+        var beArgs = new BucketExistsArgs()
+            .WithBucket(_bucketName);
+        var found = await _client.BucketExistsAsync(beArgs).ConfigureAwait(false);
+        if (!found)
+        {
+            var mbArgs = new MakeBucketArgs()
+                .WithBucket(_bucketName);
+            await _client.MakeBucketAsync(mbArgs).ConfigureAwait(false);
+        }
+
+        var stream = file.OpenReadStream();
+        
         var fileType = Path.GetExtension(file.FileName)
             .Replace(".", "")
             .ToLowerInvariant();
@@ -36,7 +49,8 @@ public abstract class S3FileService<T> : IUnrealStorageService<T> where T : clas
         var args = new PutObjectArgs()
             .WithBucket(_bucketName)
             .WithObject(objectName)
-            .WithFileName(file.FileName)
+            .WithObjectSize(stream.Length)
+            .WithStreamData(stream)
             .WithContentType(file.ContentType);
         await _client.PutObjectAsync(args);
     }

@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using Infrastructure.Services;
@@ -6,20 +7,22 @@ using Models;
 
 namespace Infrastructure.Storage;
 
-public abstract class BlobFileService<T> : IUnrealStorageService<T> where T : class, IFileEntity
+public class BlobFileService<T> : IUnrealStorageService<T> where T : class, IFileEntity
 {
-    private readonly IBlobServiceClient _serviceClient;
+    private readonly BlobServiceClient _serviceClient;
+    private readonly StorageSettings _settings;
     private readonly string _className;
 
-    protected BlobFileService(IBlobServiceClient serviceClient)
+    public BlobFileService(BlobServiceClient serviceClient, StorageSettings settings)
     {
         _serviceClient = serviceClient;
-        _className = nameof(T);
+        _settings = settings;
+        _className = typeof(T).Name.ToLowerInvariant();
     }
 
     public async Task<string?> GetUrl(T entity)
     {
-        var container = _serviceClient.GetBlobContainerClient(_serviceClient.ContainerName);
+        var container = _serviceClient.GetBlobContainerClient(_settings.BucketLocation);
         var path = $"{_className}/{entity.Id}.{entity.FileType}";
         var blobClient = container.GetBlobClient(path);
 
@@ -28,7 +31,7 @@ public abstract class BlobFileService<T> : IUnrealStorageService<T> where T : cl
 
         if (!blobClient.CanGenerateSasUri) return null;
         var uri = blobClient.GenerateSasUri(BlobSasPermissions.Read,
-            new DateTimeOffset(DateTime.Now).AddMinutes(_serviceClient.ExpiryTime));
+            new DateTimeOffset(DateTime.Now).AddMinutes(_settings.ExpiryTime));
         return uri.ToString();
     }
 
@@ -37,7 +40,7 @@ public abstract class BlobFileService<T> : IUnrealStorageService<T> where T : cl
         var fileType = Path.GetExtension(file.FileName)
             .Replace(".", "")
             .ToLowerInvariant();
-        var container = _serviceClient.GetBlobContainerClient(_serviceClient.ContainerName);
+        var container = _serviceClient.GetBlobContainerClient(_settings.BucketLocation);
         var path = $"{_className}/{id}.{fileType}";
         var blobClient = container.GetBlobClient(path);
         if (blobClient == null) return;
@@ -47,7 +50,7 @@ public abstract class BlobFileService<T> : IUnrealStorageService<T> where T : cl
 
     public async Task Delete(int id, string fileType)
     {
-        var container = _serviceClient.GetBlobContainerClient(_serviceClient.ContainerName);
+        var container = _serviceClient.GetBlobContainerClient(_settings.BucketLocation);
         var path = $"{_className}/{id}.{fileType}";
         var blobClient = container.GetBlobClient(path);
         if (blobClient == null) return;
