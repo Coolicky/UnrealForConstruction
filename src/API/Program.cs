@@ -10,18 +10,18 @@ var services = builder.Services;
 
 builder.Services.AddDbContext<UnrealContext>(options =>
 {
-    var provider = config.GetValue("Provider", Provider.Sqlite.Name);
+    var provider = config.GetValue("Database:Provider", Provider.Sqlite.Name);
     if (provider == Provider.Sqlite.Name)
         options.UseSqlite(
-            config.GetConnectionString(Provider.Sqlite.Name)!,
+            config.GetValue<string>($"Database:ConnectionStrings:{Provider.Sqlite.Name}")!,
             x => x.MigrationsAssembly(Provider.Sqlite.Assembly));
     if (provider == Provider.Postgres.Name)
         options.UseSqlite(
-            config.GetConnectionString(Provider.Postgres.Name)!,
+            config.GetConnectionString($"Database:ConnectionStrings:{Provider.Postgres.Name}")!,
             x => x.MigrationsAssembly(Provider.Postgres.Assembly));
     if (provider == Provider.SqlServer.Name)
         options.UseSqlite(
-            config.GetConnectionString(Provider.SqlServer.Name)!,
+            config.GetConnectionString($"Database:ConnectionStrings:{Provider.SqlServer.Name}")!,
             x => x.MigrationsAssembly(Provider.SqlServer.Assembly));
 });
 
