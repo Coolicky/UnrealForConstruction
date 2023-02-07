@@ -15,6 +15,7 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
     {
         _repository = repository;
     }
+
     [HttpPost("api/v{version:apiVersion}/screenshot/file/{id:int}")]
     [SwaggerOperation(
         Summary = "Uploads Screenshot",
@@ -22,7 +23,8 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
         OperationId = "Screenshots.Upload",
         Tags = new[] { "ScreenshotsEndpoint" })
     ]
-    public override async Task<ActionResult<Screenshot>> HandleAsync(UploadRequestDto dto, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<Screenshot>> HandleAsync([FromRoute] UploadRequestDto dto,
+        CancellationToken cancellationToken = new())
     {
         var screenshot = await _repository.Get(dto.Id);
         if (screenshot is null) return NotFound();

@@ -15,6 +15,7 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
     {
         _repository = repository;
     }
+
     [HttpPost("api/v{version:apiVersion}/video/file/{id:int}")]
     [SwaggerOperation(
         Summary = "Uploads Video",
@@ -22,7 +23,8 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
         OperationId = "Videos.Upload",
         Tags = new[] { "VideosEndpoint" })
     ]
-    public override async Task<ActionResult<VideoRecording>> HandleAsync(UploadRequestDto dto, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<VideoRecording>> HandleAsync([FromRoute] UploadRequestDto dto,
+        CancellationToken cancellationToken = new())
     {
         var videoRecording = await _repository.Get(dto.Id);
         if (videoRecording is null) return NotFound();
