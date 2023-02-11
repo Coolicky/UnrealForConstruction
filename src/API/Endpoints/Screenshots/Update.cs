@@ -25,6 +25,7 @@ public class Update : EndpointBaseAsync.WithRequest<PayloadRequestDto<Screenshot
     public override async Task<ActionResult<Screenshot>> HandleAsync([FromRoute] PayloadRequestDto<Screenshot> request, CancellationToken cancellationToken = new())
     {
         if (request.Payload is null) return BadRequest($"Screenshot is not provided");
+        request.Payload.ProjectId = request.ProjectId;
         var result = await _repository.Update(request.Payload);
         if (result is null) return Problem();
         return result;

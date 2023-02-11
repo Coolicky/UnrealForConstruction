@@ -25,6 +25,7 @@ public class Update : EndpointBaseAsync.WithRequest<PayloadRequestDto<PoI>>.With
     public override async Task<ActionResult<PoI>> HandleAsync([FromRoute] PayloadRequestDto<PoI> request, CancellationToken cancellationToken = new())
     {
         if (request.Payload is null) return BadRequest($"PoI is not provided");
+        request.Payload.ProjectId = request.ProjectId;
         var result = await _repository.Update(request.Payload);
         if (result is null) return Problem();
         return result;
