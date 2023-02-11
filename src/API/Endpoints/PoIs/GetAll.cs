@@ -1,3 +1,4 @@
+using API.Data;
 using Ardalis.ApiEndpoints;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.PoIs;
 
-public class GetAll : EndpointBaseAsync.WithRequest<int>.WithActionResult<IEnumerable<PoI>>
+public class GetAll : EndpointBaseAsync.WithRequest<RequestDto>.WithActionResult<IEnumerable<PoI>>
 {
     private readonly IUnrealFileRepository<PoI> _repository;
 
@@ -14,15 +15,15 @@ public class GetAll : EndpointBaseAsync.WithRequest<int>.WithActionResult<IEnume
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/poi/all/{projectId:int}")]
+    [HttpGet("api/v{version:apiVersion}/project/{project:int}/poi")]
     [SwaggerOperation(
         Summary = "Gets all PoIs",
         Description = "Gets all PoIs",
         OperationId = "PoIs.GetAll",
         Tags = new[] { "PoIsEndpoint" })
     ]
-    public override async Task<ActionResult<IEnumerable<PoI>>> HandleAsync(int projectId, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<IEnumerable<PoI>>> HandleAsync([FromRoute] RequestDto request, CancellationToken cancellationToken = new())
     {
-        return await _repository.GetAll(projectId);
+        return await _repository.GetAll(request.ProjectId);
     }
 }

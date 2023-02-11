@@ -1,3 +1,4 @@
+using API.Data;
 using Ardalis.ApiEndpoints;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Projects;
 
-public class Get : EndpointBaseAsync.WithRequest<int>.WithActionResult<Project>
+public class Get : EndpointBaseAsync.WithRequest<RequestDto>.WithActionResult<Project>
 {
     private readonly IUnrealRepository<Project> _repository;
 
@@ -14,16 +15,16 @@ public class Get : EndpointBaseAsync.WithRequest<int>.WithActionResult<Project>
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/project/{id:int}")]
+    [HttpGet("api/v{version:apiVersion}/project/{project:int}")]
     [SwaggerOperation(
         Summary = "Gets a Project",
         Description = "Gets a Project",
         OperationId = "Projects.Get",
         Tags = new[] { "ProjectEndpoint" })
     ]
-    public override async Task<ActionResult<Project>> HandleAsync(int id, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<Project>> HandleAsync([FromRoute] RequestDto request, CancellationToken cancellationToken = new())
     {
-        var project = await _repository.Get(id);
+        var project = await _repository.Get(request.ProjectId);
         if (project is null) return NotFound();
         return project;
     }

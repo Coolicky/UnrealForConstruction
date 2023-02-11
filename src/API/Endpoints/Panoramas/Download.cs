@@ -1,3 +1,4 @@
+using API.Data;
 using Ardalis.ApiEndpoints;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Panoramas;
 
-public class Download : EndpointBaseAsync.WithRequest<int>.WithActionResult
+public class Download : EndpointBaseAsync.WithRequest<IdRequestDto>.WithActionResult
 {
     private readonly IUnrealFileRepository<Panorama> _repository;
 
@@ -14,16 +15,16 @@ public class Download : EndpointBaseAsync.WithRequest<int>.WithActionResult
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/panorama/file/{id:int}")]
+    [HttpGet("api/v{version:apiVersion}/project/{project:int}/panorama/file/{id:int}")]
     [SwaggerOperation(
         Summary = "Downloads Panorama Picture",
         Description = "Downloads Panorama Picture",
         OperationId = "Panoramas.Download",
         Tags = new[] { "PanoramasEndpoint" })
     ]
-    public override async Task<ActionResult> HandleAsync(int id, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult> HandleAsync([FromRoute] IdRequestDto request, CancellationToken cancellationToken = new())
     {
-        var panorama = await _repository.Get(id);
+        var panorama = await _repository.Get(request.Id);
         if (panorama is null) return NotFound();
 
         var url = await _repository.GetUrl(panorama);

@@ -16,7 +16,7 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
         _repository = repository;
     }
 
-    [HttpPost("api/v{version:apiVersion}/screenshot/file/{id:int}")]
+    [HttpPost("api/v{version:apiVersion}/project/{project:int}/screenshot/file/{id:int}")]
     [SwaggerOperation(
         Summary = "Uploads Screenshot",
         Description = "Uploads Screenshot",

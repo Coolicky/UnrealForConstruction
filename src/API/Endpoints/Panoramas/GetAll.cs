@@ -1,3 +1,4 @@
+using API.Data;
 using Ardalis.ApiEndpoints;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Panoramas;
 
-public class GetAll : EndpointBaseAsync.WithRequest<int>.WithActionResult<IEnumerable<Panorama>>
+public class GetAll : EndpointBaseAsync.WithRequest<RequestDto>.WithActionResult<IEnumerable<Panorama>>
 {
     
     private readonly IUnrealFileRepository<Panorama> _repository;
@@ -15,15 +16,15 @@ public class GetAll : EndpointBaseAsync.WithRequest<int>.WithActionResult<IEnume
     {
         _repository = repository;
     }
-    [HttpGet("api/v{version:apiVersion}/panorama/all/{projectId:int}")]
+    [HttpGet("api/v{version:apiVersion}/project/{project:int}/panorama")]
     [SwaggerOperation(
         Summary = "Gets all Panoramas",
         Description = "Gets all Panoramas",
         OperationId = "Panoramas.GetAll",
         Tags = new[] { "PanoramasEndpoint" })
     ]
-    public override async Task<ActionResult<IEnumerable<Panorama>>> HandleAsync(int projectId, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<IEnumerable<Panorama>>> HandleAsync([FromRoute] RequestDto request, CancellationToken cancellationToken = new())
     {
-        return await _repository.GetAll(projectId);
+        return await _repository.GetAll(request.ProjectId);
     }
 }

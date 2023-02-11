@@ -1,3 +1,4 @@
+using API.Data;
 using Ardalis.ApiEndpoints;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Panoramas;
 
-public class Add : EndpointBaseAsync.WithRequest<Panorama>.WithActionResult<Panorama>
+public class Add : EndpointBaseAsync.WithRequest<PayloadRequestDto<Panorama>>.WithActionResult<Panorama>
 {
     private readonly IUnrealFileRepository<Panorama> _repository;
 
@@ -15,16 +16,17 @@ public class Add : EndpointBaseAsync.WithRequest<Panorama>.WithActionResult<Pano
         _repository = repository;
     }
     
-    [HttpPost("api/v{version:apiVersion}/panorama")]
+    [HttpPost("api/v{version:apiVersion}/project/{project:int}/panorama")]
     [SwaggerOperation(
         Summary = "Adds new Panorama",
         Description = "Adds new Panorama",
         OperationId = "Panoramas.Add",
         Tags = new[] { "PanoramasEndpoint" })
     ]
-    public override async Task<ActionResult<Panorama>> HandleAsync(Panorama panorama, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<Panorama>> HandleAsync([FromRoute] PayloadRequestDto<Panorama> request, CancellationToken cancellationToken = new())
     {
-        var result =  await _repository.Add(panorama);
+        if (request.Payload is null) return BadRequest($"Panorama is not provided");
+        var result =  await _repository.Add(request.Payload);
         if (result is null) return Problem();
         return result;
     }

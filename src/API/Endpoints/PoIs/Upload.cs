@@ -16,19 +16,19 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
         _repository = repository;
     }
 
-    [HttpPost("api/v{version:apiVersion}/poi/file/{id:int}")]
+    [HttpPost("api/v{version:apiVersion}/project/{project:int}/poi/file/{id:int}")]
     [SwaggerOperation(
         Summary = "Uploads PoI Picture",
         Description = "Uploads PoI Picture",
         OperationId = "PoIs.Upload",
         Tags = new[] { "PoIsEndpoint" })
     ]
-    public override async Task<ActionResult<PoI>> HandleAsync([FromRoute] UploadRequestDto dto,
+    public override async Task<ActionResult<PoI>> HandleAsync([FromRoute] UploadRequestDto request,
         CancellationToken cancellationToken = new())
     {
-        var poI = await _repository.Get(dto.Id);
+        var poI = await _repository.Get(request.Id);
         if (poI is null) return NotFound();
-        var result = await _repository.Upload(dto.File, poI);
+        var result = await _repository.Upload(request.File, poI);
         if (result is null) return Problem();
         return result;
     }

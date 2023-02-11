@@ -1,3 +1,4 @@
+using API.Data;
 using Ardalis.ApiEndpoints;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.PoIs;
 
-public class Add : EndpointBaseAsync.WithRequest<PoI>.WithActionResult<PoI>
+public class Add : EndpointBaseAsync.WithRequest<PayloadRequestDto<PoI>>.WithActionResult<PoI>
 {
     private readonly IUnrealFileRepository<PoI> _repository;
 
@@ -15,16 +16,17 @@ public class Add : EndpointBaseAsync.WithRequest<PoI>.WithActionResult<PoI>
         _repository = repository;
     }
 
-    [HttpPost("api/v{version:apiVersion}/poi")]
+    [HttpPost("api/v{version:apiVersion}/project/{project:int}/poi")]
     [SwaggerOperation(
         Summary = "Adds new PoI",
         Description = "Adds new PoI",
         OperationId = "PoIs.Add",
         Tags = new[] { "PoIsEndpoint" })
     ]
-    public override async Task<ActionResult<PoI>> HandleAsync(PoI poi, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<PoI>> HandleAsync([FromRoute] PayloadRequestDto<PoI> request, CancellationToken cancellationToken = new())
     {
-        var result =  await _repository.Add(poi);
+        if (request.Payload is null) return BadRequest($"PoI is not provided");
+        var result =  await _repository.Add(request.Payload);
         if (result is null) return Problem();
         return result;
     }
