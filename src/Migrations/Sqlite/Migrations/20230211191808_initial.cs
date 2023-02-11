@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Postgres.Migrations
+namespace Sqlite.Migrations
 {
     /// <inheritdoc />
     public partial class initial : Migration
@@ -96,26 +96,6 @@ namespace Postgres.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Videos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FileType = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Videos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Videos_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Panoramas_ProjectId",
                 table: "Panoramas",
@@ -130,11 +110,6 @@ namespace Postgres.Migrations
                 name: "IX_Screenshots_ProjectId",
                 table: "Screenshots",
                 column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Videos_ProjectId",
-                table: "Videos",
-                column: "ProjectId");
         }
 
         /// <inheritdoc />
@@ -148,9 +123,6 @@ namespace Postgres.Migrations
 
             migrationBuilder.DropTable(
                 name: "Screenshots");
-
-            migrationBuilder.DropTable(
-                name: "Videos");
 
             migrationBuilder.DropTable(
                 name: "Projects");

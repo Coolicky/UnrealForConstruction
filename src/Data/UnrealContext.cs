@@ -13,10 +13,9 @@ public class UnrealContext : DbContext
     {
         await context.Database.MigrateAsync();
     }
-    
+
     public DbSet<Project> Projects { get; set; }
     public DbSet<PoI> PoIs { get; set; }
     public DbSet<Panorama> Panoramas { get; set; }
     public DbSet<Screenshot> Screenshots { get; set; }
-    public DbSet<VideoRecording> Videos { get; set; }
 }

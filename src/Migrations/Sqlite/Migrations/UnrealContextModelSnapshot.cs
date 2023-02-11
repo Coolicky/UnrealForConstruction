@@ -142,26 +142,6 @@ namespace Sqlite.Migrations
                     b.ToTable("Screenshots");
                 });
 
-            modelBuilder.Entity("Models.VideoRecording", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("FileType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Videos");
-                });
-
             modelBuilder.Entity("Models.Panorama", b =>
                 {
                     b.HasOne("Models.Project", "Project")
@@ -185,17 +165,6 @@ namespace Sqlite.Migrations
                 });
 
             modelBuilder.Entity("Models.Screenshot", b =>
-                {
-                    b.HasOne("Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("Models.VideoRecording", b =>
                 {
                     b.HasOne("Models.Project", "Project")
                         .WithMany()
