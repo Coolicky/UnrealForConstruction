@@ -8,4 +8,5 @@ public interface IUnrealFileRepository<T> : IUnrealRepository<T> where T : class
     Task<List<T>> GetAll(int id);
     Task<string?> GetUrl(T entity);
     Task<T?> Upload(IFormFile file, T entity);
+    Task<T?> Upload(Stream stream, string fileName, T entity);
 }

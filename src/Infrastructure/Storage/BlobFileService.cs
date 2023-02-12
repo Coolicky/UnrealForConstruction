@@ -35,17 +35,14 @@ public class BlobFileService<T> : IUnrealStorageService<T> where T : class, IFil
         return uri.ToString();
     }
 
-    public async Task Upload(IFormFile file, int id)
+    public async Task Upload(Stream stream, string fileName, int id)
     {
-        var fileType = Path.GetExtension(file.FileName)
-            .Replace(".", "")
-            .ToLowerInvariant();
         await _client.CreateIfNotExistsAsync();
-        var path = $"{_className}/{id}.{fileType}";
+        var path = $"{_className}/{fileName}";
         var blobClient = _client.GetBlobClient(path);
         if (blobClient == null) return;
         
-        await blobClient.UploadAsync(file.OpenReadStream(), overwrite: true);
+        await blobClient.UploadAsync(stream, overwrite: true);
     }
 
     public async Task Delete(int id, string fileType)

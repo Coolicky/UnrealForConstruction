@@ -28,7 +28,7 @@ public class S3FileService<T> : IUnrealStorageService<T> where T : class, IFileE
         return await _client.PresignedGetObjectAsync(args);
     }
 
-    public async Task Upload(IFormFile file, int id)
+    public async Task Upload(Stream stream, string fileName, int id)
     {
         var beArgs = new BucketExistsArgs()
             .WithBucket(_settings.BucketLocation);
@@ -39,19 +39,13 @@ public class S3FileService<T> : IUnrealStorageService<T> where T : class, IFileE
                 .WithBucket(_settings.BucketLocation);
             await _client.MakeBucketAsync(mbArgs).ConfigureAwait(false);
         }
-
-        var stream = file.OpenReadStream();
         
-        var fileType = Path.GetExtension(file.FileName)
-            .Replace(".", "")
-            .ToLowerInvariant();
-        var objectName = $"{_objectName}/{id}.{fileType}";
+        var objectName = $"{_objectName}/{fileName}";
         var args = new PutObjectArgs()
             .WithBucket(_settings.BucketLocation)
             .WithObject(objectName)
             .WithObjectSize(stream.Length)
-            .WithStreamData(stream)
-            .WithContentType(file.ContentType);
+            .WithStreamData(stream);
         await _client.PutObjectAsync(args);
     }
 
