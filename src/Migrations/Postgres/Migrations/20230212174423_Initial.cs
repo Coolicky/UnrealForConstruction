@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace Sqlite.Migrations
+namespace Postgres.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SqlServer.Migrations
 {
     [DbContext(typeof(UnrealContext))]
-    [Migration("20230212173030_initial")]
-    partial class initial
+    [Migration("20230212174412_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
