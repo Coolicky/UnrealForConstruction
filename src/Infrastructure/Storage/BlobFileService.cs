@@ -45,7 +45,7 @@ public class BlobFileService<T> : IUnrealStorageService<T> where T : class, IFil
         var blobClient = _client.GetBlobClient(path);
         if (blobClient == null) return;
         
-        await blobClient.UploadAsync(file.OpenReadStream());
+        await blobClient.UploadAsync(file.OpenReadStream(), overwrite: true);
     }
 
     public async Task Delete(int id, string fileType)
