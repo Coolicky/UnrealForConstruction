@@ -17,18 +17,18 @@ public static class ApplicationExtensions
     {
         services.AddDbContext<UnrealContext>(options =>
         {
-            var provider = config.GetValue("Database:Provider", Provider.Sqlite.Name);
+            var provider = config.GetValue("DB_PROVIDER", Provider.Sqlite.Name);
             if (provider == Provider.Sqlite.Name)
                 options.UseSqlite(
-                    config.GetValue<string>($"Database:ConnectionStrings:{Provider.Sqlite.Name}")!,
+                    config.GetValue<string>($"DB_CONNECTION_STRING")!,
                     x => x.MigrationsAssembly(Provider.Sqlite.Assembly));
             if (provider == Provider.Postgres.Name)
                 options.UseSqlite(
-                    config.GetConnectionString($"Database:ConnectionStrings:{Provider.Postgres.Name}")!,
+                    config.GetConnectionString($"DB_CONNECTION_STRING")!,
                     x => x.MigrationsAssembly(Provider.Postgres.Assembly));
             if (provider == Provider.SqlServer.Name)
                 options.UseSqlite(
-                    config.GetConnectionString($"Database:ConnectionStrings:{Provider.SqlServer.Name}")!,
+                    config.GetConnectionString($"DB_CONNECTION_STRING")!,
                     x => x.MigrationsAssembly(Provider.SqlServer.Assembly));
         });
         services.AddTransient(typeof(IUnrealRepository<>), typeof(EfCoreRepository<>));
@@ -38,34 +38,37 @@ public static class ApplicationExtensions
     public static void ConfigureStorageProvider(this IServiceCollection services,
         ConfigurationManager config)
     {
-        var storageProvider = config.GetValue("Storage:Provider", "S3");
+        var storageProvider = config.GetValue("STORAGE_PROVIDER", "S3");
         var settings = new StorageSettings
         {
-            ExpiryTime = config.GetValue<int>("Storage:ExpiryTime"),
-            BucketLocation = config.GetValue<string>("Storage:BucketLocation") ?? "logistics"
+            ExpiryTime = config.GetValue<int>("STORAGE_EXPIRY"),
+            BucketLocation = config.GetValue<string>("STORAGE_DEFAULT_BUCKET") ?? "logistics"
         };
         services.AddSingleton(settings);
         if (storageProvider == "S3")
         {
             var client = new MinioClient()
-                .WithEndpoint(config["Storage:S3:endpoint"])
-                .WithCredentials(config["Storage:S3:accessKey"], config["Storage:S3:secretKey"])
-                .WithSSL(config.GetValue<bool>("Storage:S3:secure"))
+                .WithEndpoint(config["S3_ENDPOINT"])
+                .WithCredentials(config["S3_ACCESS_KEY"], config["S3_SECRET_KEY"])
+                .WithSSL(config.GetValue<bool>("S3_SSL"))
                 .Build();
             services.AddSingleton(client);
             services.AddScoped(typeof(IUnrealStorageService<>), typeof(S3FileService<>));
         }
-        else
+        else if (storageProvider == "Blob")
         {
-            var endpoint = config["Storage:AzureBlob:BlobEndpoint"];
-            var account = config["Storage:AzureBlob:AccountName"];
-            var key = config["Storage:AzureBlob:AccountKey"];
-            var container = config["Storage:BucketLocation"];
-            var client = new BlobContainerClient(new Uri($"{endpoint}/{account}/{container}"),
+            var endpoint = config["BLOB_ENDPOINT"];
+            var account = config["BLOB_NAME"];
+            var key = config["BLOB_KEY"];
+            var client = new BlobContainerClient(new Uri($"{endpoint}/{account}/{settings.BucketLocation}"),
                 new StorageSharedKeyCredential(account, key));
             
             services.AddSingleton(client);
             services.AddScoped(typeof(IUnrealStorageService<>), typeof(BlobFileService<>));
+        }
+        else
+        {
+            throw new Exception("Storage provider can only be a S3 or Blob");
         }
     }
 }
