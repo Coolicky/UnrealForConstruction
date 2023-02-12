@@ -4,5 +4,5 @@ namespace API.Data;
 
 public class UploadRequestDto : IdRequestDto
 {
-    [FromForm] public IFormFile File { get; set; }
+    [FromForm] public IFormFile? File { get; set; }
 }

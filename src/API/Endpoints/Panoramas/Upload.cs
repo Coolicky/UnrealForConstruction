@@ -23,12 +23,13 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
         OperationId = "Panoramas.Upload",
         Tags = new[] { "PanoramasEndpoint" })
     ]
-    public override async Task<ActionResult<Panorama>> HandleAsync([FromRoute] UploadRequestDto dto,
+    public override async Task<ActionResult<Panorama>> HandleAsync([FromRoute] UploadRequestDto request,
         CancellationToken cancellationToken = new())
     {
-        var panorama = await _repository.Get(dto.Id);
+        if (request.File is null) return BadRequest("File not Provided");
+        var panorama = await _repository.Get(request.Id);
         if (panorama is null) return NotFound();
-        var result = await _repository.Upload(dto.File, panorama);
+        var result = await _repository.Upload(request.File, panorama);
         if (result is null) return Problem();
         return result;
     }

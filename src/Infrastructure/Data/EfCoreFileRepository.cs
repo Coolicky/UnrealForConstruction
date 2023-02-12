@@ -51,7 +51,9 @@ public class EfCoreFileRepository<TEntity> : IUnrealFileRepository<TEntity>
         }
 
         _context.Set<TEntity>().Remove(entity);
-        await _unrealStorage.Delete(id, entity.FileType);
+        
+        if(entity.FileType is not null)
+            await _unrealStorage.Delete(id, entity.FileType);
         var result = await _context.SaveChangesAsync();
 
         return result > 0;
@@ -69,7 +71,7 @@ public class EfCoreFileRepository<TEntity> : IUnrealFileRepository<TEntity>
         return await _unrealStorage.GetUrl(entity);
     }
 
-    public async Task<TEntity> Upload(IFormFile file, TEntity entity)
+    public async Task<TEntity?> Upload(IFormFile file, TEntity entity)
     {
         entity.FileType = Path.GetExtension(file.FileName)
             .Replace(".", "")
@@ -81,7 +83,7 @@ public class EfCoreFileRepository<TEntity> : IUnrealFileRepository<TEntity>
         return await Update(entity);
     }
 
-    public async Task<TEntity> Upload(Stream stream, string fileName, TEntity entity)
+    public async Task<TEntity?> Upload(Stream stream, string fileName, TEntity entity)
     {
         await _unrealStorage.Upload(stream, fileName, entity.Id);
         entity.Image = await _unrealStorage.GetUrl(entity);

@@ -23,12 +23,13 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
         OperationId = "Screenshots.Upload",
         Tags = new[] { "ScreenshotsEndpoint" })
     ]
-    public override async Task<ActionResult<Screenshot>> HandleAsync([FromRoute] UploadRequestDto dto,
+    public override async Task<ActionResult<Screenshot>> HandleAsync([FromRoute] UploadRequestDto request,
         CancellationToken cancellationToken = new())
     {
-        var screenshot = await _repository.Get(dto.Id);
+        if (request.File is null) return BadRequest("File not Provided");
+        var screenshot = await _repository.Get(request.Id);
         if (screenshot is null) return NotFound();
-        var result = await _repository.Upload(dto.File, screenshot);
+        var result = await _repository.Upload(request.File, screenshot);
         if (result is null) return Problem();
         return result;
     }

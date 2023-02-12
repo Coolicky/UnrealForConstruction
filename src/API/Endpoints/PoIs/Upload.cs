@@ -26,6 +26,7 @@ public class Upload : EndpointBaseAsync.WithRequest<UploadRequestDto>.WithAction
     public override async Task<ActionResult<PoI>> HandleAsync([FromRoute] UploadRequestDto request,
         CancellationToken cancellationToken = new())
     {
+        if (request.File is null) return BadRequest("File not Provided");
         var poI = await _repository.Get(request.Id);
         if (poI is null) return NotFound();
         var result = await _repository.Upload(request.File, poI);
