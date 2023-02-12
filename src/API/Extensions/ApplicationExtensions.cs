@@ -1,4 +1,6 @@
 using API.Data;
+using Azure.Storage;
+using Azure.Storage.Blobs;
 using Data;
 using Infrastructure.Data;
 using Infrastructure.Services;
@@ -55,7 +57,15 @@ public static class ApplicationExtensions
         }
         else
         {
-    
+            var endpoint = config["Storage:AzureBlob:BlobEndpoint"];
+            var account = config["Storage:AzureBlob:AccountName"];
+            var key = config["Storage:AzureBlob:AccountKey"];
+            var container = config["Storage:BucketLocation"];
+            var client = new BlobContainerClient(new Uri($"{endpoint}/{account}/{container}"),
+                new StorageSharedKeyCredential(account, key));
+            
+            services.AddSingleton(client);
+            services.AddScoped(typeof(IUnrealStorageService<>), typeof(BlobFileService<>));
         }
     }
 }
