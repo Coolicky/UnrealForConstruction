@@ -3,22 +3,23 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore.Http.Features">
-        <HintPath>..\..\..\..\.dotnet\packs\Microsoft.AspNetCore.App.Ref\7.0.2\ref\net7.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
-      </Reference>
+        <Reference Include="Microsoft.AspNetCore.Http.Features">
+            <HintPath>..\..\..\..\.dotnet\packs\Microsoft.AspNetCore.App.Ref\7.0.2\ref\net7.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Data\Data.csproj" />
-      <ProjectReference Include="..\Models\Models.csproj" />
+        <ProjectReference Include="..\Data\Data.csproj"/>
+        <ProjectReference Include="..\Models\Models.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Azure.Storage.Blobs" Version="12.14.1" />
-      <PackageReference Include="Minio" Version="4.0.7" />
+        <PackageReference Include="Azure.Storage.Blobs" Version="12.14.1"/>
+        <PackageReference Include="Minio" Version="4.0.7"/>
     </ItemGroup>
 
 </Project>

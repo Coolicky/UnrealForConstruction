@@ -1,5 +1,4 @@
 using Infrastructure.Services;
-using Microsoft.AspNetCore.Http;
 using Minio;
 using Models;
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Sqlite.Migrations
 {
     [DbContext(typeof(UnrealContext))]
-    [Migration("20230211191808_initial")]
+    [Migration("20230212173153_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -26,15 +26,12 @@ namespace Sqlite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FileType")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ProjectId")
@@ -54,37 +51,30 @@ namespace Sqlite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FileType")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Footer")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Icon")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Information")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("LookDistance")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Tag")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -101,23 +91,18 @@ namespace Sqlite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Link")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LinkId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProjectNumber")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -132,7 +117,6 @@ namespace Sqlite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FileType")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ProjectId")

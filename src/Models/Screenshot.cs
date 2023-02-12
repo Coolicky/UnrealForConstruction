@@ -9,8 +9,8 @@ public class Screenshot : IFileEntity, IProjectEntity
     
     [ForeignKey("Project")]
     public int ProjectId { get; set; }
-    public Project Project { get; set; }
+    public Project? Project { get; set; }
     
     [NotMapped] public string? Image { get; set; }
-    public string FileType { get; set; }
+    public string? FileType { get; set; }
 }

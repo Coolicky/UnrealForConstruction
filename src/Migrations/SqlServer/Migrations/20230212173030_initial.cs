@@ -16,11 +16,11 @@ namespace SqlServer.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ProjectNumber = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Link = table.Column<string>(type: "TEXT", nullable: false),
-                    LinkId = table.Column<string>(type: "TEXT", nullable: false)
+                    ProjectNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Link = table.Column<string>(type: "TEXT", nullable: true),
+                    LinkId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,10 +33,10 @@ namespace SqlServer.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
                     ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Location = table.Column<string>(type: "TEXT", nullable: false),
-                    FileType = table.Column<string>(type: "TEXT", nullable: false)
+                    Location = table.Column<string>(type: "TEXT", nullable: true),
+                    FileType = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,14 +56,14 @@ namespace SqlServer.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Information = table.Column<string>(type: "TEXT", nullable: false),
-                    Footer = table.Column<string>(type: "TEXT", nullable: false),
-                    Icon = table.Column<string>(type: "TEXT", nullable: false),
-                    FileType = table.Column<string>(type: "TEXT", nullable: false),
-                    Tag = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Information = table.Column<string>(type: "TEXT", nullable: true),
+                    Footer = table.Column<string>(type: "TEXT", nullable: true),
+                    Icon = table.Column<string>(type: "TEXT", nullable: true),
+                    FileType = table.Column<string>(type: "TEXT", nullable: true),
+                    Tag = table.Column<string>(type: "TEXT", nullable: true),
                     LookDistance = table.Column<double>(type: "REAL", nullable: false),
-                    Location = table.Column<string>(type: "TEXT", nullable: false)
+                    Location = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,7 +83,7 @@ namespace SqlServer.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FileType = table.Column<string>(type: "TEXT", nullable: false)
+                    FileType = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
