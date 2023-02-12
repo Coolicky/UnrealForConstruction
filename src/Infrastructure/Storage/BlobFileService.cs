@@ -9,22 +9,22 @@ namespace Infrastructure.Storage;
 
 public class BlobFileService<T> : IUnrealStorageService<T> where T : class, IFileEntity
 {
-    private readonly BlobServiceClient _serviceClient;
+    private readonly BlobContainerClient _client;
     private readonly StorageSettings _settings;
     private readonly string _className;
 
-    public BlobFileService(BlobServiceClient serviceClient, StorageSettings settings)
+    public BlobFileService(BlobContainerClient client, StorageSettings settings)
     {
-        _serviceClient = serviceClient;
+        _client = client;
         _settings = settings;
         _className = typeof(T).Name.ToLowerInvariant();
     }
 
     public async Task<string?> GetUrl(T entity)
-    {
-        var container = _serviceClient.GetBlobContainerClient(_settings.BucketLocation);
+    { 
+        await _client.CreateIfNotExistsAsync();
         var path = $"{_className}/{entity.Id}.{entity.FileType}";
-        var blobClient = container.GetBlobClient(path);
+        var blobClient = _client.GetBlobClient(path);
 
         if (blobClient == null) return null;
         if (await blobClient.ExistsAsync() != true) return null;
@@ -40,9 +40,9 @@ public class BlobFileService<T> : IUnrealStorageService<T> where T : class, IFil
         var fileType = Path.GetExtension(file.FileName)
             .Replace(".", "")
             .ToLowerInvariant();
-        var container = _serviceClient.GetBlobContainerClient(_settings.BucketLocation);
+        await _client.CreateIfNotExistsAsync();
         var path = $"{_className}/{id}.{fileType}";
-        var blobClient = container.GetBlobClient(path);
+        var blobClient = _client.GetBlobClient(path);
         if (blobClient == null) return;
         
         await blobClient.UploadAsync(file.OpenReadStream());
@@ -50,9 +50,9 @@ public class BlobFileService<T> : IUnrealStorageService<T> where T : class, IFil
 
     public async Task Delete(int id, string fileType)
     {
-        var container = _serviceClient.GetBlobContainerClient(_settings.BucketLocation);
+        await _client.CreateIfNotExistsAsync();
         var path = $"{_className}/{id}.{fileType}";
-        var blobClient = container.GetBlobClient(path);
+        var blobClient = _client.GetBlobClient(path);
         if (blobClient == null) return;
 
         await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
