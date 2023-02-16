@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag unreal-logistics-api:test
+      run: docker build . --file src/API/Dockerfile --tag unreal-logistics-api:test
