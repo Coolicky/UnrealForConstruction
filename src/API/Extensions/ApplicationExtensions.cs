@@ -5,6 +5,8 @@ using Data;
 using Infrastructure.Data;
 using Infrastructure.Services;
 using Infrastructure.Storage;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Minio;
 
@@ -62,7 +64,7 @@ public static class ApplicationExtensions
             var key = config["BLOB_KEY"];
             var client = new BlobContainerClient(new Uri($"{endpoint}/{account}/{settings.BucketLocation}"),
                 new StorageSharedKeyCredential(account, key));
-            
+
             services.AddSingleton(client);
             services.AddScoped(typeof(IUnrealStorageService<>), typeof(BlobFileService<>));
         }
@@ -70,5 +72,40 @@ public static class ApplicationExtensions
         {
             throw new Exception("Storage provider can only be a S3 or Blob");
         }
+    }
+
+    public static void ConfigureApiVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ReportApiVersions = true;
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        });
+        services.AddVersionedApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
+        });
+    }
+
+    public static void ConfigureSwagger(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.EnableAnnotations();
+            options.SwaggerDoc("v1", new() { Title = "Unreal API", Version = "v1" });
+        });
+    }
+
+    public static void ConfigureSwagger(this IApplicationBuilder app)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Unreal API v1");
+        });
     }
 }

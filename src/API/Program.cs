@@ -9,27 +9,10 @@ var services = builder.Services;
 
 services.ConfigureDatabaseProvider(config);
 services.ConfigureStorageProvider(config);
-
-services.AddApiVersioning(options =>
-{
-    options.DefaultApiVersion = new ApiVersion(1, 0);
-    options.AssumeDefaultVersionWhenUnspecified = true;
-    options.ReportApiVersions = true;
-    options.ApiVersionReader = new UrlSegmentApiVersionReader();
-});
-services.AddVersionedApiExplorer(options =>
-{
-    options.GroupNameFormat = "'v'VVV";
-    options.SubstituteApiVersionInUrl = true;
-});
+services.ConfigureApiVersioning();
 
 services.AddControllers();
-services.AddEndpointsApiExplorer();
-services.AddSwaggerGen(options =>
-{
-    options.EnableAnnotations();
-    options.SwaggerDoc("v1", new (){Title = "Unreal API", Version = "v1"});
-});
+services.ConfigureSwagger();
 
 var app = builder.Build();
 
@@ -39,15 +22,8 @@ using (var scope = app.Services.CreateScope())
     await UnrealContext.InitializeAsync(db);
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Unreal API v1");
-    });
-}
+    app.ConfigureSwagger();
 
 app.UseHttpsRedirection();
 
