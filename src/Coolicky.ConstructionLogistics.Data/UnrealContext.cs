@@ -11,7 +11,8 @@ public class UnrealContext : DbContext
 
     public static async Task InitializeAsync(UnrealContext context)
     {
-        await context.Database.MigrateAsync();
+        var isMigrationNeeded = (await context.Database.GetPendingMigrationsAsync()).Any();
+        if (isMigrationNeeded) await context.Database.MigrateAsync();
     }
 
     public DbSet<Project> Projects { get; set; }
