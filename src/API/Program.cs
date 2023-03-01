@@ -1,11 +1,20 @@
 using API.Extensions;
 using Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 var services = builder.Services;
+
+
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = config["OIDC_PROVIDER"];
+        options.Audience = config["OIDC_CLIENT_ID"];
+    });
+
+services.AddAuthorization();
 
 services.ConfigureDatabaseProvider(config);
 services.ConfigureStorageProvider(config);
@@ -27,8 +36,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers()
+    .RequireAuthorization();
 
 app.Run();
