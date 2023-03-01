@@ -1,10 +1,10 @@
 using Azure.Storage;
 using Azure.Storage.Blobs;
 using Coolicky.ConstructionLogistics.Api.Data;
-using Data;
-using Infrastructure.Data;
-using Infrastructure.Services;
-using Infrastructure.Storage;
+using Coolicky.ConstructionLogistics.Data;
+using Coolicky.ConstructionLogistics.Infrastructure.Data;
+using Coolicky.ConstructionLogistics.Infrastructure.Services;
+using Coolicky.ConstructionLogistics.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;

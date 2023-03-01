@@ -1,8 +1,8 @@
 using Ardalis.ApiEndpoints;
 using Coolicky.ConstructionLogistics.Api.Data;
-using Infrastructure.Services;
+using Coolicky.ConstructionLogistics.Infrastructure.Services;
+using Coolicky.ConstructionLogistics.Models;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Coolicky.ConstructionLogistics.Api.Endpoints.Panoramas;

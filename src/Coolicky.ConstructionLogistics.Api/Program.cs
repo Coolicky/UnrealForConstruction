@@ -1,5 +1,5 @@
 using Coolicky.ConstructionLogistics.Api.Extensions;
-using Data;
+using Coolicky.ConstructionLogistics.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);

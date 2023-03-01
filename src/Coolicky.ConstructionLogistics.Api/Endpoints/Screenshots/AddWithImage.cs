@@ -1,9 +1,9 @@
 using System.Buffers.Text;
 using Ardalis.ApiEndpoints;
 using Coolicky.ConstructionLogistics.Api.Data;
-using Infrastructure.Services;
+using Coolicky.ConstructionLogistics.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Coolicky.ConstructionLogistics.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Coolicky.ConstructionLogistics.Api.Endpoints.Screenshots;

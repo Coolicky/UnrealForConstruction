@@ -1,7 +1,7 @@
 using Ardalis.ApiEndpoints;
-using Infrastructure.Services;
+using Coolicky.ConstructionLogistics.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Coolicky.ConstructionLogistics.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Coolicky.ConstructionLogistics.Api.Endpoints.Projects;

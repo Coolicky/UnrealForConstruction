@@ -33,11 +33,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Data\Data.csproj" />
-      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-      <ProjectReference Include="..\Migrations\Postgres\Postgres.csproj" />
-      <ProjectReference Include="..\Migrations\Sqlite\Sqlite.csproj" />
-      <ProjectReference Include="..\Migrations\SqlServer\SqlServer.csproj" />
+      <ProjectReference Include="..\Coolicky.ConstructionLogistics.Data\Coolicky.ConstructionLogistics.Data.csproj" />
+      <ProjectReference Include="..\Coolicky.ConstructionLogistics.Infrastructure\Coolicky.ConstructionLogistics.Infrastructure.csproj" />
+      <ProjectReference Include="..\Migrations\Coolicky.ConstructionLogistics.Migrations.Postgres\Coolicky.ConstructionLogistics.Migrations.Postgres.csproj" />
+      <ProjectReference Include="..\Migrations\Coolicky.ConstructionLogistics.Migrations.Sqlite\Coolicky.ConstructionLogistics.Migrations.Sqlite.csproj" />
+      <ProjectReference Include="..\Migrations\Coolicky.ConstructionLogistics.Migrations.SqlServer\Coolicky.ConstructionLogistics.Migrations.SqlServer.csproj" />
     </ItemGroup>
 
 </Project>
