@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "src\Models\Models
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "src\Data\Data.csproj", "{D5B64372-A20D-4A94-A97F-09AE1292BE3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{07A35A91-1929-4AA1-8388-24D60CC51AAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coolicky.ConstructionLogistics.Api", "src\Coolicky.ConstructionLogistics.Api\Coolicky.ConstructionLogistics.Api.csproj", "{07A35A91-1929-4AA1-8388-24D60CC51AAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{E2941011-D363-4B8D-8A16-B468B8D6307D}"
 EndProject
