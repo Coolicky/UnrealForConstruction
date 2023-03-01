@@ -1,43 +1,52 @@
-using System;
-using System.Linq;
 using Nuke.Common;
-using Nuke.Common.CI;
-using Nuke.Common.Execution;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
-using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.EnvironmentInfo;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
-using static Nuke.Common.Tools.Docker.DockerTasks;
+using Nuke.Common.Tools.DotNet;
+using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
-class Build : NukeBuild
+partial class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-    
-    readonly AbsolutePath APIProject = RootDirectory / "src" / "Coolicky.ConstructionLogistics.Api";
+
+    [Parameter("Project to build")] Project ActiveProject;
+    AbsolutePath ProjectPath => RootDirectory / "src" / ActiveProject.ProjectName;
+
+    [Solution] readonly Solution Solution;
 
     Target Clean => _ => _
+        .Requires(() => ActiveProject)
         .Before(Restore)
         .Executes(() =>
         {
-            
+            DotNetClean(r =>
+                r.SetProject(ProjectPath));
         });
 
     Target Restore => _ => _
+        .Requires(() => ActiveProject)
         .Executes(() =>
         {
+            DotNetRestore(r =>
+                r.SetProjectFile(ProjectPath));
         });
 
     Target Compile => _ => _
+        .Requires(() => ActiveProject)
         .DependsOn(Restore)
         .Executes(() =>
         {
-        });
+            DotNetBuild(r => r
+                .SetProjectFile(ProjectPath)
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetConfiguration(Configuration)
+                .EnableNoRestore());
 
+            Log.Information("Current semver: {Version}", GitVersion.MajorMinorPatch);
+        });
 }
