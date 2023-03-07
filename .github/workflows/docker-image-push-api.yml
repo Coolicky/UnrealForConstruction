@@ -29,4 +29,4 @@ jobs:
           versionSpec: '5.x'
           
       - name: RunNuke Compile
-        run: ./build.sh PushImageToGitHubRegistry --ActiveProject Api --GithubToken ${{ secrets.GITHUB_TOKEN }} --GitHubUsername coolicky
+        run: ./build.sh PushImageToGitHubRegistry --ActiveProject Api --GitHubToken ${{ secrets.GITHUB_TOKEN }} --GitHubUsername coolicky
